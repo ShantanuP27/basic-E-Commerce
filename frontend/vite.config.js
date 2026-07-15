@@ -6,8 +6,8 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      // Forward API calls to the Express backend (Shantanu's service on :5000)
-      '/api': 'http://localhost:5000',
+      // Forward API calls to the Express backend (Shantanu's service on :5001)
+      '/api': 'http://localhost:5001',
     },
   },
 })
