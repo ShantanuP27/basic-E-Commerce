@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const app = require('./src/app');
 
 // Default 5001 to avoid macOS AirPlay/ControlCenter which occupies :5000.
