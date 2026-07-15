@@ -18,13 +18,19 @@ export default function ChatWidget() {
     const text = input.trim()
     if (!text || sending) return
     setInput('')
+    // Prior turns for multi-turn context: drop the initial greeting (index 0),
+    // map to the {role, content} shape the backend expects, cap at last 10.
+    const history = messages
+      .slice(1)
+      .map((m) => ({ role: m.role, content: m.text }))
+      .slice(-10)
     setMessages((m) => [...m, { role: 'user', text }])
     setSending(true)
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({ message: text, history }),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
